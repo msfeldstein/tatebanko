@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server --inline --hot --public https://starter-hyperapp.glitch.me",
     "build": "webpack --env production",
     "wipe": "rm -rf .git && git init && git add . && git commit -m 'initial commit'",
     "test": "echo 'FOR TRAVIS CI' && npm run build && rm bundle.css bundle.js && echo 'SUCCESS!'"
