@@ -44,5 +44,8 @@ module.exports = function webpackStuff(env) {
       }],
     },
     plugins,
+    devServer: {
+      disableHostCheck: true,
+    }
   };
 };
