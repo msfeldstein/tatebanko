@@ -20,6 +20,5 @@ const {
  * think of it as a hub to talk to other apps/frameworks/vanillaJS
  * here is an example on codepen: https://codepen.io/selfup/pen/jLMRjO
  */
-num = 10
 setTimeout(add, 1000)
 setTimeout(add, 2000)
