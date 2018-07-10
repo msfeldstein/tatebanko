@@ -1,10 +1,6 @@
 import { h } from 'hyperapp';
 import * as THREE from 'three';
 
-const allCanvases = []
-
-const drawCanvasContainer = document.querySelector('#draw-canvases')
-
 const renderer = new THREE.WebGLRenderer({
   antialias: true
 })
@@ -21,7 +17,6 @@ function render(t) {
   renderer.render(scene, camera)
   camera.position.x = Math.cos(t / 1000) * .05
   camera.position.y = Math.sin(t / 1212) * .05
-  // camera.lookAt(origin)
 }
 
 render()
@@ -48,7 +43,6 @@ function updateState(state) {
 export default () => (state, actions) => {
   updateState(state)
   return <div
-    class="Preview"
     onupdate={(el, attrs) => console.log("update", el, attrs)}
     oncreate={(el, attrs) => attachRenderer(el)}
     >
