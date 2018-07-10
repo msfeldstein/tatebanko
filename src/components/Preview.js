@@ -8,7 +8,7 @@ const drawCanvasContainer = document.querySelector('#draw-canvases')
 const renderer = new THREE.WebGLRenderer({
   antialias: true
 })
-renderer.setClearColor(0xFF0000)
+renderer.setClearColor(0xffffff)
 
 const scene = new THREE.Scene()
 const camera = new THREE.PerspectiveCamera(75, renderer.getSize().width / renderer.getSize().width, 0.1, 100)
