@@ -12,7 +12,6 @@ const appActions = app(
 
 function attachImage(index, image) {
   return function() {
-    console.log(index, image, 'yes')
     appActions.bindImage({index, image})
   }
 }
