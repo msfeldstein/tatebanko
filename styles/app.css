@@ -18,4 +18,10 @@ body, html {
 .Container {
   box-shadow: 0 0 4px rgba(0,0,0,0.7);
   height: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.Container > div {
+  width: 50%;
 }
