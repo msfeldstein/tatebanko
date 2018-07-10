@@ -34,19 +34,15 @@ function attachRenderer(renderHolder) {
 
 function updateState(state) {
   state.images.forEach((src, i) => {
-    const image = new Image()
-      const tex = new THREE.Texture(image)
+    const tex = new THREE.TextureLoader().load(src)
+    const mat = new THREE.MeshBasicMaterial({map: tex, transparent: true})
+    const plane = new THREE.Mesh(
+      new THREE.PlaneBufferGeometry(1, 1),
+      mat
+    )
+    plane.position.z = .08 * i
+    scene.add(plane)
   })
-  const tex = new THREE.Texture(drawingCanvas)
-  loadImageToCanvas(url, drawingCanvas, tex)
-  attachDrawEvents(drawingCanvas)
-  
-  const mat = new THREE.MeshBasicMaterial({map: tex, transparent: true})
-  const plane = new THREE.Mesh(
-    new THREE.PlaneBufferGeometry(1, 1),
-    mat
-  )
-  plane.position.z = .08 * i
 }
 
 export default () => (state, actions) => {
