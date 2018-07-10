@@ -4,7 +4,8 @@ export default () => (state, actions) => {
 console.log("state",state)
   return <div
     class="Preview"
-    onupdate={() => console.log(this, arguments)}
+    onupdate={(el, attrs) => console.log("update", el, attrs)}
+    oncreate={(el, attrs) => console.log("create", el, attrs)}
     >
     Preview
   </div>;
