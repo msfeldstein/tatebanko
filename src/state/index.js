@@ -1,3 +1,9 @@
 export default {
-  num: 0,
+  images: [
+    new Image(),
+    new Image(),
+    new Image(),
+    new Image(),
+    new Image()
+  ]
 };
