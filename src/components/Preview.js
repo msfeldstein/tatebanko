@@ -1,5 +1,5 @@
 import { h } from 'hyperapp';
-import THREE from 'three
+import THREE from 'three'
 
 const allCanvases = []
 
