@@ -26,6 +26,11 @@ body, html {
   width: 50%;
 }
 
+.Preview {
+  height: 100%;
+  width: 100%;
+}
+
 .Composer {
   overflow: scroll;
   height: 100%;

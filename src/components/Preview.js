@@ -1,5 +1,5 @@
 import { h } from 'hyperapp';
-import THREE from 'three';
+import * as THREE from 'three';
 
 const allCanvases = []
 
@@ -8,7 +8,7 @@ const drawCanvasContainer = document.querySelector('#draw-canvases')
 const renderer = new THREE.WebGLRenderer({
   antialias: true
 })
-renderer.setClearColor(0xffffff)
+renderer.setClearColor(0xFF0000)
 
 const scene = new THREE.Scene()
 const camera = new THREE.PerspectiveCamera(75, renderer.getSize().width / renderer.getSize().width, 0.1, 100)
@@ -28,11 +28,29 @@ render()
 
 function attachRenderer(renderHolder) {
   renderHolder.appendChild(renderer.domElement)
+  window.rh = renderHolder
   renderer.setSize(renderHolder.offsetWidth, renderHolder.offsetWidth)
 }
 
+function updateState(state) {
+  state.images.forEach((src, i) => {
+    const image = new Image()
+      const tex = new THREE.Texture(image)
+  })
+  const tex = new THREE.Texture(drawingCanvas)
+  loadImageToCanvas(url, drawingCanvas, tex)
+  attachDrawEvents(drawingCanvas)
+  
+  const mat = new THREE.MeshBasicMaterial({map: tex, transparent: true})
+  const plane = new THREE.Mesh(
+    new THREE.PlaneBufferGeometry(1, 1),
+    mat
+  )
+  plane.position.z = .08 * i
+}
+
 export default () => (state, actions) => {
-console.log("state",state)
+  updateState(state)
   return <div
     class="Preview"
     onupdate={(el, attrs) => console.log("update", el, attrs)}
