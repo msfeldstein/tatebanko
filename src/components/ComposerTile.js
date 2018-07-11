@@ -1,21 +1,20 @@
 import { h } from 'hyperapp';
 
 
-const dragEnter = (e) => {
+const dragOver = (e) => {
   e.preventDefault()
-  console.log("ENTER", e) 
 }
 
 const drop = (index, actions) => (e) => {
-  e.preventDefault() 
-  console.log("Drop on ", index)
-  actions.bindImage({image, index})
+  e.preventDefault()
+  const imageURL = URL.createObjectURL(e.dataTransfer.files[0])
+  actions.bindImage({image: imageURL, index})
 }
 
 export default ({image, index}) => (state, actions) => {
   return <div
       class="composer-tile"
-      ondragover={dragEnter}
+      ondragover={dragOver}
       ondrop={drop(index, actions)}>
     <img src={image} />
   </div>;
