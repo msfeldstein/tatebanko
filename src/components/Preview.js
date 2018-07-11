@@ -59,10 +59,6 @@ window.addEventListener('download-gltf', download)
 
 export default () => (state, actions) => {
   updateState(state)
-  if (state.shouldDownload) {
-    console.log("Download")
-    actions.endDownload()
-  }
   return <div
     onupdate={(el, attrs) => console.log("update", el, attrs)}
     oncreate={(el, attrs) => attachRenderer(el)}

@@ -5,12 +5,4 @@ export default {
     console.log("IMages", image, images)
     return { images }
   },
-
-  startDownload: () => {
-    return { shouldDownload: true }
-  },
-
-  endDownload: () => {
-    return { shouldDownload: false }
-  }
 };
