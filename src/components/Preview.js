@@ -1,5 +1,6 @@
+/* global THREE */
 import { h } from 'hyperapp';
-import * as THREE from 'three';
+
 
 const renderer = new THREE.WebGLRenderer({
   antialias: true
