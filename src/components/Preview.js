@@ -24,11 +24,16 @@ render()
 
 function attachRenderer(renderHolder) {
   renderHolder.appendChild(renderer.domElement)
-  window.rh = renderHolder
   renderer.setSize(renderHolder.offsetWidth, renderHolder.offsetWidth * 1.6)
 }
 
 function updateState(state) {
+  scene.children.forEach((child) => {
+    scene.remove(child)
+    child.material.map.dispose()
+    child.material.dispose()
+    child.geometry.dispose()
+  })
   state.images.forEach((src, i) => {
     const tex = new THREE.TextureLoader().load(src)
     const mat = new THREE.MeshBasicMaterial({map: tex, transparent: true})
@@ -63,7 +68,6 @@ export default () => (state, actions) => {
     onupdate={(el, attrs) => console.log("update", el, attrs)}
     oncreate={(el, attrs) => attachRenderer(el)}
     >
-    Preview
   </div>;
 
 }

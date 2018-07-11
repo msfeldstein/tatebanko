@@ -21,6 +21,9 @@ export default ({image, index}) => (state, actions) => {
       class="composer-tile"
       ondragover={dragOver}
       ondrop={drop(index, actions)}>
+      <button
+        onclick={() => actions.deleteImage(index)}
+        class="delete-image">X</button>
     <img src={image} />
   </div>;
 }
