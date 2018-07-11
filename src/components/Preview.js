@@ -25,7 +25,7 @@ render()
 function attachRenderer(renderHolder) {
   renderHolder.appendChild(renderer.domElement)
   window.rh = renderHolder
-  renderer.setSize(renderHolder.offsetWidth, renderHolder.offsetWidth)
+  renderer.setSize(renderHolder.offsetWidth, renderHolder.offsetWidth * 1.6)
 }
 
 function updateState(state) {
@@ -36,18 +36,38 @@ function updateState(state) {
       new THREE.PlaneBufferGeometry(1, 1),
       mat
     )
-    plane.position.z = .08 * i
+    plane.position.z = -.04 * i
     scene.add(plane)
   })
 }
 
+function download() {
+  const exporter = new THREE.GLTFExporter()
+  exporter.parse(scene, function(gltf) {
+    const blob = new Blob([gltf], {type: 'application/octet-stream'})
+    var objectUrl = URL.createObjectURL(blob);
+    const a = document.createElement('a')
+    a.href = objectUrl
+    a.download = 'tatebanko.glb'
+    a.click()
+  }, {
+    binary: true
+  })
+}
+
+window.addEventListener('download-gltf', download)
+
 export default () => (state, actions) => {
   updateState(state)
+  if (state.shouldDownload) {
+    console.log("Download")
+    actions.endDownload()
+  }
   return <div
     onupdate={(el, attrs) => console.log("update", el, attrs)}
     oncreate={(el, attrs) => attachRenderer(el)}
     >
     Preview
   </div>;
-  
+
 }
