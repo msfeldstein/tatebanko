@@ -26,10 +26,6 @@ body, html {
   flex-direction: row;
 }
 
-.Container > div {
-  width: 50%;
-}
-
 .Preview {
   height: 100%;
   width: 100%;
@@ -38,6 +34,7 @@ body, html {
 .Composer {
   overflow: scroll;
   height: 100%;
+  width: 200px;
   text-align: center;
   padding: 20px;
 }

@@ -1,14 +1,15 @@
 export default {
-  bindImage: ({index, image}) => state => {
+  bindImage: ({index, image, position}) => state => {
     const images = state.images
-    images[index] = image
+    const imageData = images[index] || { position: position || 1 }
+    console.log(index, image, position, imageData)
+    imageData.src = image
+    images[index] = imageData
     return { images }
   },
 
   deleteImage: (index) => state => {
-    console.log("INDEX?", index)
     const images = state.images
-    console.log("I", images.filter((value, idx) => console.log(idx, 'idx') && idx != index))
     return {images: images.filter((value, idx) => idx != index)}
   }
 };
