@@ -9,7 +9,7 @@ renderer.autoClear = false
 renderer.setClearColor(0xffffff)
 
 const scene = new THREE.Scene()
-const camera = new THREE.PerspectiveCamera(75, renderer.getSize().width / renderer.getSize().height / 2, 0.1, 100)
+const camera = new THREE.PerspectiveCamera(100, renderer.getSize().width / renderer.getSize().height / 2, 0.1, 100)
 
 const composerCamera = new THREE.PerspectiveCamera(75, renderer.getSize().width / renderer.getSize().height / 2, 0.1, 100)
 composerCamera.position.set(2, 2, 2)
@@ -49,18 +49,8 @@ function attachRenderer(renderHolder) {
   renderer.setSize(renderHolder.offsetWidth, renderHolder.offsetHeight)
   camera.aspect = renderer.getSize().width / renderer.getSize().height / 2
   camera.updateProjectionMatrix()
-  camera.position.z = 1
+  camera.position.z = 0
 }
-
-function createPhone() {
-  const phoneURL = 'https://cdn.glitch.com/ae47162c-cd2d-4028-9d28-856d2312c256%2Fphone.glb?1531287267173'
-  const loader = new THREE.GLTFLoader()
-  loader.load(phoneURL, (gltf) => {
-    scene.add(gltf.scene)
-    gltf.scene.scale.set(0.1, 0.1, 0.1)
-  })
-}
-
 
 function updateState(state) {
   group.traverse((child) => {
