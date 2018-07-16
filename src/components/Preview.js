@@ -46,13 +46,11 @@ render()
 
 function attachRenderer(renderHolder) {
   renderHolder.appendChild(renderer.domElement)
+  renderer.setSize(renderHolder.offsetWidth, renderHolder.offsetHeight)
   camera.aspect = renderer.getSize().width / renderer.getSize().height / 2
   camera.updateProjectionMatrix()
-  renderer.setSize(renderHolder.offsetWidth, renderHolder.offsetHeight)
   camera.position.z = 1
 }
-
-
 
 function createPhone() {
   const phoneURL = 'https://cdn.glitch.com/ae47162c-cd2d-4028-9d28-856d2312c256%2Fphone.glb?1531287267173'
