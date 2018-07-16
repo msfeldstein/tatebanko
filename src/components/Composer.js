@@ -3,7 +3,6 @@ import ComposerTile from './ComposerTile'
 import dragNDrop from '../dragdrop'
 
 const makeDraggable = (actions, child, i, container) => {
-	console.log(child)
 	dragNDrop({
 		element: child,
 		constraints: 'y',

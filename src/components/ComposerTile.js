@@ -1,7 +1,11 @@
 import { h } from 'hyperapp';
 
+const dragenter = () => {
+  console.log("ENTER")
+}
 
 const dragOver = (e) => {
+  console.log("DRAG OVER")
   e.preventDefault()
 }
 
@@ -25,11 +29,13 @@ export default ({image, data, index}) => (state, actions) => {
   return <div
       class="composer-drag-container"
       oncreate={onCreate(data)}
+      ondragover={dragOver}
+        ondragenter={dragenter}
+        ondrop={drop(index, actions)}
       >
       <div
         class="composer-tile"
-        ondragover={dragOver}
-        ondrop={drop(index, actions)}>
+        >
         <button
           onclick={() => actions.deleteImage(index)}
           class="delete-image">X</button>

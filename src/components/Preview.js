@@ -82,7 +82,6 @@ function updateState(state) {
     const planePivot = new THREE.Object3D()
     planePivot.add(plane)
     plane.position.z = -1
-    console.log("Pos", imageData.position)
     const scale = 1 + (imageData.position) * 4 * camera.aspect
     planePivot.scale.set(scale, scale, scale)
     group.add(planePivot)

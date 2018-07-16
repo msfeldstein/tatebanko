@@ -20,7 +20,6 @@ async function loadInitialImages() {
   for (var i = 0; i < numImages; i++) {
     const image = `https://cdn.glitch.com/ae47162c-cd2d-4028-9d28-856d2312c256%2Flayer_${i}.png`
     const percent = i / numImages
-    console.log("PERCENT", percent)
     appActions.bindImage({index: i, image, position: percent})
   }
 }
