@@ -1,10 +1,16 @@
 export default {
   bindImage: ({index, image, position}) => state => {
     const images = state.images
-    const imageData = images[index] || { position: position || 1 }
-    console.log(index, image, position, imageData)
+    const imageData = images[index] || { position: position }
     imageData.src = image
     images[index] = imageData
+    return { images }
+  },
+
+  setImagePosition: ({index, position}) => state => {
+    const images = state.images
+    const imageData = images[index]
+    imageData.position = position
     return { images }
   },
 

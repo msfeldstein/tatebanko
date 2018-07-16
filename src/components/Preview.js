@@ -65,7 +65,8 @@ function createPhone() {
 
 
 function updateState(state) {
-  group.children.forEach((child) => {
+  group.traverse((child) => {
+    if (!child.material) return
     child.material.map.dispose()
     child.material.dispose()
     child.geometry.dispose()
@@ -81,7 +82,8 @@ function updateState(state) {
     const planePivot = new THREE.Object3D()
     planePivot.add(plane)
     plane.position.z = -1
-    const scale = imageData.position * camera.aspect
+    console.log("Pos", imageData.position)
+    const scale = 1 + (imageData.position) * 4 * camera.aspect
     planePivot.scale.set(scale, scale, scale)
     group.add(planePivot)
   })
