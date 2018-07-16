@@ -7,7 +7,7 @@ const makeDraggable = (actions, child, i, container) => {
 		element: child,
 		constraints: 'y',
 		callback: (e) => {
-			const newPosition = e.element.attributeStyleMap.get('transform')[0].y.value
+			const newPosition = parseInt(e.element.style.transform.split(',')[1].trim())
 			const newPercent = newPosition / container.offsetHeight
 			actions.setImagePosition({index: i, position: newPercent})
 		}
