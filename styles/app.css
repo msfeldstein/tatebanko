@@ -35,9 +35,6 @@ body, html {
   overflow: scroll;
   height: 100%;
   width: 200px;
-  text-align: center;
-  padding: 20px;
-  position: relative;
 }
 
 .composer-drag-container {

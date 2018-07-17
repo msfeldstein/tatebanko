@@ -1,6 +1,6 @@
 import { h } from 'hyperapp';
 import Preview from './Preview'
-import Composer from './Composer'
+import Composer from './CanvasComposer'
 import DownloadButton from './DownloadButton'
 
 export default ({ num }, { add, sub }) =>
@@ -11,6 +11,8 @@ export default ({ num }, { add, sub }) =>
     </div>
     <div class="Container">
       <Preview />
-      <Composer />
+      <div class="Composer">
+        <Composer />
+      </div>
     </div>
   </div>;

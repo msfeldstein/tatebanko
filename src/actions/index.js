@@ -17,5 +17,10 @@ export default {
   deleteImage: (index) => state => {
     const images = state.images
     return {images: images.filter((value, idx) => idx != index)}
+  },
+
+  rerender: () => {
+    console.log("RERENDER")
+    { rerenderflag: Math.random() }
   }
 };
