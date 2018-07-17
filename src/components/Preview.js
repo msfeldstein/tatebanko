@@ -13,12 +13,15 @@ renderer.setClearColor(0xffffff)
 const layerCache = {}
 
 const scene = new THREE.Scene()
-const camera = new THREE.PerspectiveCamera(75, .75, 0.1, 1000)
-
-const composerCamera = new THREE.PerspectiveCamera(75, renderer.getSize().width / renderer.getSize().height / 2, 0.1, 1000)
-// const composerCamera = new THREE.OrthographicCamera(-5, 5, -5, 5)
+const camera = new THREE.PerspectiveCamera(75, .75, 0.1, 2000)
+let composerCamera = new THREE.PerspectiveCamera(75, renderer.getSize().width / renderer.getSize().height / 2, 0.1, 2000)
 composerCamera.position.set(2, 2, 2)
 composerCamera.lookAt(new THREE.Vector3(0, 0, -3))
+if (DEBUG) {
+  composerCamera = new THREE.OrthographicCamera(-500, 500, -500, 500, 1, 1000)
+  composerCamera.position.set(500, 0, -250)
+  composerCamera.lookAt(new THREE.Vector3(0, 0, -250))
+}
 const cameraHelper = new THREE.CameraHelper(camera)
 scene.add(cameraHelper)
 
@@ -75,7 +78,7 @@ function getOrCreateFromImageData(imageData) {
     if (DEBUG) {
       const debugBox = new THREE.Mesh(
         new THREE.BoxBufferGeometry(.75 * s, 1 * s, 0.01),
-        new THREE.MeshBasicMaterial({color: 0xff0000})
+        new THREE.MeshBasicMaterial({color: Math.random() * 0xffffff})
       )
       planePivot.add(debugBox)
       debugBox.position.z = plane.position.z  
@@ -91,7 +94,8 @@ function updateState(state) {
   group.children = [] 
   state.images.forEach((imageData, idx) => {
     let layer = getOrCreateFromImageData(imageData)
-    const scale = ((imageData.position))  * 80 + 1
+    console.log(imageData.position, Math.pow(imageData.position, 1))
+    const scale = Math.pow(imageData.position, 4)  * 1800 + 1
     layer.scale.set(scale, scale, scale)
     group.add(layer)
   })
