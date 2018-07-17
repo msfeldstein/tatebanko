@@ -1,7 +1,7 @@
 /* global THREE */
 import { h } from 'hyperapp';
 
-const DEBUG = false
+const DEBUG = window.location.hash.indexOf('debug') != -1
 
 const renderer = new THREE.WebGLRenderer({
   antialias: true,

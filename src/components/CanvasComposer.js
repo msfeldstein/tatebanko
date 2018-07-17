@@ -38,6 +38,7 @@ const render = (el, state, actions) => {
 	            }
 	        }
 		});
+		layer._imageIndex = idx
 		stage.add(layer)
 		const y = percentToOffset(image.position, el.height)
 		var circle = new Konva.Circle({
@@ -114,16 +115,26 @@ const onDragOver = (e) => {
 	e.preventDefault()
 }
 
-const onDrop = (e) => {
+const onDrop = (actions) => (e) => {
 	e.preventDefault()
 	console.log(e)
 	const pos = {
 		x: e.offsetX,
 		y: e.offsetY
 	}
-	console.log("Pos", pos)
 	const ix = stage.getIntersection(pos)
 	console.log("IX", ix)
+	const layer = ix.findAncestor('Layer')
+	const idx = layer._imageIndex;
+	console.log("layer index", idx, layer)
+	const fileReader = new FileReader()
+	fileReader.onload = () => {
+		const imageURL = fileReader.result
+		actions.bindImage({image: imageURL, index: idx})
+		console.log("Image", imageURL)
+	}
+	fileReader.readAsDataURL(e.dataTransfer.files[0])
+
 }
 
 export default () => (state, actions) => {
@@ -131,7 +142,7 @@ export default () => (state, actions) => {
 		oncreate={onUpdateCreator(state, actions)}
 		onupdate={onUpdateCreator(state, actions)}
 		ondragover={onDragOver}
-		ondrop={onDrop}
+		ondrop={onDrop(actions)}
 		// onmousedown={mouseDown(state, actions)}
 		// onmousemove={mouseMove(state, actions)}
 		// onmouseup={mouseUp(state, actions)}
