@@ -13,6 +13,7 @@ renderer.setClearColor(0xffffff)
 const layerCache = {}
 
 const scene = new THREE.Scene()
+window.scene = scene
 const camera = new THREE.PerspectiveCamera(52.7, .75, 0.1, 2000)
 let composerCamera = new THREE.PerspectiveCamera(75, renderer.getSize().width / renderer.getSize().height / 2, 0.1, 2000)
 composerCamera.position.set(2, 2, 2)
@@ -27,6 +28,7 @@ scene.add(cameraHelper)
 
 const pivot = new THREE.Object3D()
 const group = new THREE.Object3D()
+group.name = "Container"
 pivot.add(group)
 group.position.z = 1
 scene.add(pivot)
@@ -110,7 +112,7 @@ function updateState(state) {
   group.children = [] 
   state.images.forEach((imageData, idx) => {
     let layer = getOrCreateFromImageData(imageData)
-    const scale = Math.pow(imageData.position, 5)  * 1800 + 1
+    const scale = Math.pow(imageData.position, 3)  * 1800 + 1
     console.log(scale)
     layer.scale.set(scale, scale, scale)
     group.add(layer)
@@ -121,6 +123,8 @@ function updateState(state) {
 
 function download() {
   const exporter = new THREE.GLTFExporter()
+  const container = scene.getObjectByName("Container")
+  container.children.sort((a, b) => a.scale.z - b.scale.z)
   exporter.parse(scene, function(gltf) {
     const blob = new Blob([gltf], {type: 'application/octet-stream'})
     var objectUrl = URL.createObjectURL(blob);
