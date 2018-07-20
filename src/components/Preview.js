@@ -13,7 +13,7 @@ renderer.setClearColor(0xffffff)
 const layerCache = {}
 
 const scene = new THREE.Scene()
-const camera = new THREE.PerspectiveCamera(75, .75, 0.1, 2000)
+const camera = new THREE.PerspectiveCamera(52.7, .75, 0.1, 2000)
 let composerCamera = new THREE.PerspectiveCamera(75, renderer.getSize().width / renderer.getSize().height / 2, 0.1, 2000)
 composerCamera.position.set(2, 2, 2)
 composerCamera.lookAt(new THREE.Vector3(0, 0, -3))
@@ -36,9 +36,25 @@ const origin = new THREE.Vector3()
 function render(t) {
   requestAnimationFrame(render)
   if (!camera) return
+  renderer.setClearColor(0xffffff)
   renderer.clear()
   // render preview
-  renderer.setViewport(0, 0, renderer.getSize().width / 2, renderer.getSize().height)
+  const w = renderer.getSize().width / 2
+  const h = renderer.getSize().height
+  const paddedW = Math.min(w - 40, (h - 80) * 3 / 4)
+  const paddedH = paddedW * 4 / 3
+  const padLeft = (w - paddedW) / 2
+  const padTop = (h - paddedH) / 4
+  console.log(paddedW, paddedH, paddedW / paddedH)
+  renderer.setScissor(0, 0, w, h)
+  renderer.setScissorTest(true)
+  renderer.setClearColor(0x000000)
+  renderer.clear()
+  renderer.setScissor(padLeft, padTop, paddedW, paddedH)
+  renderer.setClearColor(0xff0000)
+  renderer.clear()
+  renderer.setScissorTest(false)
+  renderer.setViewport(padLeft, padTop, paddedW, paddedH)
   pivot.rotation.x = Math.sin(t / 500) * .02
   pivot.rotation.y = Math.cos(t / 500) * .02
   cameraHelper.visible = false
@@ -58,7 +74,7 @@ render()
 function attachRenderer(renderHolder) {
   renderHolder.appendChild(renderer.domElement)
   renderer.setSize(renderHolder.offsetWidth, renderHolder.offsetHeight)
-  camera.aspect = renderer.getSize().width / renderer.getSize().height / 2
+  camera.aspect = .75
   camera.updateProjectionMatrix()
 }
 
