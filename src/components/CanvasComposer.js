@@ -17,7 +17,6 @@ const percentToOffset = (percent, height) => {
 const dragEnd = (actions, idx, stage) => (e) => {
 	const percent = offsetToPercent(e.evt.offsetY, stage.getHeight())
 	actions.setImagePosition({index: idx, position: percent})
-	console.log("DRAG END", e, percent)
 }
 
 let stage;
@@ -115,23 +114,27 @@ const onDragOver = (e) => {
 	e.preventDefault()
 }
 
-const onDrop = (actions) => (e) => {
+const onDrop = (state, actions) => (e) => {
 	e.preventDefault()
-	console.log(e)
 	const pos = {
 		x: e.offsetX,
 		y: e.offsetY
 	}
-	const ix = stage.getIntersection(pos)
-	console.log("IX", ix)
-	const layer = ix.findAncestor('Layer')
-	const idx = layer._imageIndex;
-	console.log("layer index", idx, layer)
 	const fileReader = new FileReader()
 	fileReader.onload = () => {
 		const imageURL = fileReader.result
-		actions.bindImage({image: imageURL, index: idx})
-		console.log("Image", imageURL)
+		const intersect = stage.getIntersection(pos)
+		let idx = state.images.length;
+		if (intersect) {
+			const layer = intersect.findAncestor('Layer')
+			idx = layer._imageIndex;
+			actions.bindImage({image: imageURL, index: idx})
+		} else {
+			actions.bindImage({image: imageURL, index: idx})
+			const percent = offsetToPercent(e.offsetY, stage.getHeight())
+			actions.setImagePosition({index: idx, position: percent})
+		}
+		
 	}
 	fileReader.readAsDataURL(e.dataTransfer.files[0])
 
@@ -142,7 +145,7 @@ export default () => (state, actions) => {
 		oncreate={onUpdateCreator(state, actions)}
 		onupdate={onUpdateCreator(state, actions)}
 		ondragover={onDragOver}
-		ondrop={onDrop(actions)}
+		ondrop={onDrop(state, actions)}
 		// onmousedown={mouseDown(state, actions)}
 		// onmousemove={mouseMove(state, actions)}
 		// onmouseup={mouseUp(state, actions)}

@@ -45,7 +45,6 @@ function render(t) {
   const paddedH = paddedW * 4 / 3
   const padLeft = (w - paddedW) / 2
   const padTop = (h - paddedH) / 4
-  console.log(paddedW, paddedH, paddedW / paddedH)
   renderer.setScissor(0, 0, w, h)
   renderer.setScissorTest(true)
   renderer.setClearColor(0x000000)
@@ -87,6 +86,7 @@ function getOrCreateFromImageData(imageData) {
       new THREE.PlaneBufferGeometry(.75 * s, 1 * s),
       mat
     )
+    plane.name = imageData.src
     const planePivot = new THREE.Object3D()
     planePivot.add(plane)
     plane.position.z = -1
@@ -110,8 +110,8 @@ function updateState(state) {
   group.children = [] 
   state.images.forEach((imageData, idx) => {
     let layer = getOrCreateFromImageData(imageData)
-    console.log(imageData.position, Math.pow(imageData.position, 1))
-    const scale = Math.pow(imageData.position, 4)  * 1800 + 1
+    const scale = Math.pow(imageData.position, 5)  * 1800 + 1
+    console.log(scale)
     layer.scale.set(scale, scale, scale)
     group.add(layer)
   })
