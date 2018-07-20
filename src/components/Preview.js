@@ -1,5 +1,6 @@
 /* global THREE */
 import { h } from 'hyperapp';
+const FOV = 28.6
 
 const DEBUG = window.location.hash.indexOf('debug') != -1
 
@@ -14,7 +15,8 @@ const layerCache = {}
 
 const scene = new THREE.Scene()
 window.scene = scene
-const camera = new THREE.PerspectiveCamera(52.7, .75, 0.1, 2000)
+const camera = new THREE.PerspectiveCamera(FOV, .75, 0.1, 3000)
+
 let composerCamera = new THREE.PerspectiveCamera(75, renderer.getSize().width / renderer.getSize().height / 2, 0.1, 2000)
 composerCamera.position.set(2, 2, 2)
 composerCamera.lookAt(new THREE.Vector3(0, 0, -3))
@@ -114,7 +116,7 @@ function updateState(state) {
     let layer = getOrCreateFromImageData(imageData)
     const scale = Math.pow(imageData.position, 3)  * 1800 + 1
     console.log(scale)
-    layer.scale.set(scale, scale, scale)
+    layer.scale.set(scale, scale, scale * 1.75)
     group.add(layer)
   })
 
