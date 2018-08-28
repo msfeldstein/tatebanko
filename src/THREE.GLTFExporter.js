@@ -29,6 +29,7 @@ var WEBGL_CONSTANTS = {
 	LINEAR_MIPMAP_NEAREST: 0x2701,
 	NEAREST_MIPMAP_LINEAR: 0x2702,
 	LINEAR_MIPMAP_LINEAR: 0x2703
+
 };
 
 var THREE_TO_WEBGL = {
@@ -737,8 +738,8 @@ THREE.GLTFExporter.prototype = {
 
 				magFilter: THREE_TO_WEBGL[ map.magFilter ],
 				minFilter: THREE_TO_WEBGL[ map.minFilter ],
-				wrapS: THREE_TO_WEBGL[ map.wrapS ],
-				wrapT: THREE_TO_WEBGL[ map.wrapT ]
+				wrapS: 33071, // feldstein force clamp
+				wrapT: 33071,
 
 			};
 
