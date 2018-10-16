@@ -1,12 +1,15 @@
 /* global THREE */
 import { h } from 'hyperapp';
-const FOV = 28.6
 
 const DEBUG = window.location.hash.indexOf('debug') != -1
-
+const DEFAULT_V_FOV = 0.666488587;
+const DEFAULT_H_FOV = 0.508015513;
+const ASPECT_RATIO = .75//Math.tan(DEFAULT_H_FOV / 2) / Math.tan(DEFAULT_V_FOV / 2);
+const FOV = 35.32295939408245
 const renderer = new THREE.WebGLRenderer({
   antialias: true,
-  autoClear: false
+  autoClear: false,
+  preserveDrawingBuffer: true
 })
 renderer.autoClear = false
 renderer.setClearColor(0xffffff)
@@ -15,9 +18,9 @@ const layerCache = {}
 
 const scene = new THREE.Scene()
 window.scene = scene
-const camera = new THREE.PerspectiveCamera(FOV, .75, 0.1, 3000)
-
-let composerCamera = new THREE.PerspectiveCamera(75, renderer.getSize().width / renderer.getSize().height / 2, 0.1, 2000)
+const camera = new THREE.PerspectiveCamera(FOV, ASPECT_RATIO, 0.1, 3000)
+console.log(FOV, 'FOV')
+let composerCamera = new THREE.PerspectiveCamera(FOV, renderer.getSize().width / renderer.getSize().height / 2, 0.1, 2000)
 composerCamera.position.set(2, 2, 2)
 composerCamera.lookAt(new THREE.Vector3(0, 0, -3))
 if (DEBUG) {
@@ -58,8 +61,14 @@ function render(t) {
   renderer.clear()
   renderer.setScissorTest(false)
   renderer.setViewport(padLeft, padTop, paddedW, paddedH)
-  pivot.rotation.x = Math.sin(t / 500) * .02
-  pivot.rotation.y = Math.cos(t / 500) * .02
+  // pivot.rotation.x = Math.sin(t / 500) * .02
+  // pivot.rotation.y = Math.cos(t / 500) * .02
+  camera.position.set(
+    .01 * Math.cos(t / 1000),
+    .01 * Math.sin(t / 1000),
+    0
+  )
+  camera.lookAt(pivot.position)
   cameraHelper.visible = false
   renderer.render(scene, camera)
 
@@ -77,7 +86,7 @@ render()
 function attachRenderer(renderHolder) {
   renderHolder.appendChild(renderer.domElement)
   renderer.setSize(renderHolder.offsetWidth, renderHolder.offsetHeight)
-  camera.aspect = .75
+  camera.aspect = ASPECT_RATIO
   camera.updateProjectionMatrix()
 }
 
@@ -93,7 +102,7 @@ function getOrCreateFromImageData(imageData) {
     plane.name = imageData.src
     const planePivot = new THREE.Object3D()
     planePivot.add(plane)
-    plane.position.z = -1
+    plane.position.z = -.858
     
     if (DEBUG) {
       const debugBox = new THREE.Mesh(
@@ -115,7 +124,6 @@ function updateState(state) {
   state.images.forEach((imageData, idx) => {
     let layer = getOrCreateFromImageData(imageData)
     const scale = Math.pow(imageData.position, 3)  * 1800 + 1
-    console.log(scale)
     layer.scale.set(scale, scale, scale * 1.75)
     group.add(layer)
   })
@@ -139,8 +147,32 @@ function download() {
   })
 }
 
-window.addEventListener('download-gltf', download)
+function downloadImage() {
+  const canvas = renderer.domElement
+  const oldWidth = canvas.width
+  const oldHeight = canvas.height
+  canvas.width = 1536
+  canvas.height = 2048
+  renderer.setScissorTest(false)
+  // pivot.rotation.x = 0
+  // pivot.rotation.y = 0
+  camera.position.set(0, 0, 0)
+  camera.lookAt(new THREE.Vector3(0, 0, -1))
+  renderer.setSize(canvas.width, canvas.height)
+  renderer.setViewport(0, 0, canvas.width, canvas.height)
+  renderer.render(scene, camera)
+  const data = renderer.domElement.toDataURL("image/jpeg")
+  const a = document.createElement('a')
+  a.href = data
+  a.download = 'fallback.jpg'
+  a.click()
+  canvas.width = oldWidth
+  canvas.height = oldHeight
+  renderer.setSize(oldWidth, oldHeight)
+}
 
+window.addEventListener('download-gltf', download)
+window.addEventListener('download-image', downloadImage)
 export default () => (state, actions) => {
   updateState(state)
   return <div

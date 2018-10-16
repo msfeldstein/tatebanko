@@ -1,9 +1,10 @@
 import { h } from 'hyperapp';
 
-export default () => (state, actions) => {
+export default ({label, eventName}) => (state, actions) => {
+  console.log(state)
   return <button class="DownloadButton" onclick={() => {
-    var event = new Event('download-gltf');
+    var event = new Event(eventName);
     window.dispatchEvent(event);
-  }}>Save
+  }}>{label}
   </button>;
 }

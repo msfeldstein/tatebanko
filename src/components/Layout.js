@@ -7,7 +7,8 @@ export default ({ num }, { add, sub }) =>
   <div class="Layout">
     <div class="Header">
       Tatebanko Creator
-      <DownloadButton />
+      <DownloadButton label="Save GLB" eventName="download-gltf" />
+      <DownloadButton label="Save Fallback Image" eventName="download-image" />
     </div>
     <div class="Container">
       <Preview />

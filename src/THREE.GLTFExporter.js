@@ -102,7 +102,9 @@ THREE.GLTFExporter.prototype = {
 		var pending = [];
 		var nodeMap = new Map();
 		var skins = [];
-		var extensionsUsed = {};
+		var extensionsUsed = {
+			"FB_3d_photo": {}
+		};
 		var cachedData = {
 
 			attributes: new Map(),
