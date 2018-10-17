@@ -143,7 +143,8 @@ function download() {
     a.download = 'tatebanko.glb'
     a.click()
   }, {
-    binary: true
+    binary: true,
+    forcePowerOfTwoTextures: true
   })
 }
 
